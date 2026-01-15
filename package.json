@@ -1,0 +1,16 @@
+{
+	"name": "node-tmux",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "rm -rf dist && tsc && cp src/bash dist/"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^25.0.8",
+		"typescript": "^5.9.3"
+	}
+}
