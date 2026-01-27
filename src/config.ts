@@ -1,4 +1,6 @@
-import { Window } from './types/config-types.js';
+import { Shell, Window } from './types/config-types.js';
+
+export const shell: Shell = 'zsh';
 
 export const configuredSessions: Record<string, Window[]> = {
 	testSession: [

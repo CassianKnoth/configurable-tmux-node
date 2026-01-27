@@ -1,43 +1,21 @@
 // import * as readline from 'node:readline/promises';
 // import { stdin as input, stdout as output } from 'node:process';
 
-import {
-	AllChoices,
-	Choice,
-	UserChoice,
-	UserChoiceList,
-} from '../../types/user-choice-types.js';
+// import { SessionState } from '../../types/state.js';
+// import {
+// 	AllChoices,
+// 	Choice,
+// 	UserChoice,
+// 	UserChoiceList,
+// } from '../../types/user-choice-types.js';
 
-const choices: AllChoices = {
-	attach: {
-		label: '[a]ttach',
-		regex: /a$|attach/i,
-		handler: () => {},
-	},
-	destroy: {
-		label: '[d]estroy',
-		regex: /d$|destroy/i,
-		handler: () => {},
-	},
-	restart: {
-		label: '[r]estart',
-		regex: /r$|restart/i,
-		handler: () => {},
-	},
-	other: {
-		label: '[o]ther',
-		regex: /o$|other/i,
-		handler: () => {},
-	},
-};
+// const listChoiceLabels = (choiceList: Choice[]): string => {
+// 	const choiceLabelList = choiceList.reduce((prev, curr) => {
+// 		return prev + curr.label + ', ';
+// 	}, '');
 
-const listChoiceLabels = (choiceList: Choice[]): string => {
-	const choiceLabelList = choiceList.reduce((prev, curr) => {
-		return prev + curr.label + ', ';
-	}, '');
-
-	return choiceLabelList;
-};
+// 	return choiceLabelList;
+// };
 
 /**
  * Present the user with a set of choices and handle the input accordingly.
@@ -47,25 +25,25 @@ const listChoiceLabels = (choiceList: Choice[]): string => {
  *
  * Choices: `attach`, `destroy`, `restart`, `other`
  */
-export const handleUserChoice = async (availableChoices: UserChoiceList) => {
-	const parsedAvailableOptions = Object.keys(availableChoices).map(
-		(choiceKey) => {
-			return choices[choiceKey as UserChoice];
-		},
-	);
+// export const handleUserChoice = async (availableChoices: UserChoiceList): SessionState => {
+// 	const parsedAvailableOptions = Object.keys(availableChoices).map(
+// 		(choiceKey) => {
+// 			return choices[choiceKey as UserChoice];
+// 		},
+// 	);
 
-	const question = `👉 The choice is yours: ${listChoiceLabels(parsedAvailableOptions)}[e]xit (all other keys)`;
+// 	const question = `👉 The choice is yours: ${listChoiceLabels(parsedAvailableOptions)}[e]xit (all other keys)`;
 
-	console.log(question);
+// 	console.log(question);
 
-	// const rl = readline.createInterface({ input, output });
+// const rl = readline.createInterface({ input, output });
 
-	// const answer = await rl.question('👉 The choice is yours: [o]ther: ');
+// const answer = await rl.question('👉 The choice is yours: [o]ther: ');
 
-	// rl.close();
+// rl.close();
 
-	// attach
-	// destroy
-	// restart
-	// other
-};
+// attach
+// destroy
+// restart
+// other
+// };

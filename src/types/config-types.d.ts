@@ -33,3 +33,5 @@ type Pane = {
 	 */
 	command?: string;
 };
+
+export type Shell = 'zsh' | 'bash';
