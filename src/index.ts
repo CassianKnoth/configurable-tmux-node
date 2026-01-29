@@ -2,7 +2,7 @@
 
 import { styleText } from 'node:util';
 import { configuredSessions } from './config.js';
-import { SessionState } from './types/state.js';
+import { Context } from './types/state.js';
 import { renderState } from './util/state/render-state.js';
 import { exitOut } from './util/exit.js';
 import { printLineSeparator } from './util/layout/line-separator.js';
@@ -20,25 +20,25 @@ if (configuredSessionNames.length < 1) {
 	// EXiT
 }
 
-let state: SessionState = 'NO_CONFIG';
-// let context = {
-// 	sessionName: null,
-// };
+let context: Context = {
+	sessionState: 'NO_CONFIG',
+	sessionName: '',
+};
 
 while (true) {
-	if (state === 'EXIT') {
+	if (context.sessionState === 'EXIT') {
 		exitOut();
 	}
 
 	// render state
-	renderState(state);
+	renderState(context);
 
 	// handle state transition
-	const newState = await transition(state);
-	console.log('received new state', newState);
+	const newContext = await transition(context);
+	console.log('received new state', newContext);
 
 	// set new state
-	state = newState;
+	context = newContext;
 }
 
 // TODO

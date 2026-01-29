@@ -3,3 +3,8 @@ export type SessionState =
 	| 'DETACHED_SESSION'
 	| 'ATTACHED_SESSION'
 	| 'EXIT';
+
+export type Context = {
+	sessionState: SessionState;
+	sessionName: string;
+};

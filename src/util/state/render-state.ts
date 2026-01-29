@@ -1,11 +1,14 @@
 import { styleText } from 'node:util';
-import { SessionState } from '../../types/state.js';
+import { Context } from '../../types/state.js';
 import { listConfigurations } from '../list-configuration.js';
+import { printLineSeparator } from '../layout/line-separator.js';
 
-export const renderState = async (currentState: SessionState) => {
-	console.log('renderState: ', currentState);
+export const renderState = async ({ sessionState, sessionName }: Context) => {
+	console.log('renderState: ', sessionState);
 
-	switch (currentState) {
+	printLineSeparator();
+
+	switch (sessionState) {
 		case 'NO_CONFIG':
 			console.log(
 				styleText(
@@ -17,10 +20,16 @@ export const renderState = async (currentState: SessionState) => {
 			listConfigurations();
 			break;
 		case 'DETACHED_SESSION':
-			console.log('Detached Session !!!');
+			console.log(
+				// double space due to emoji consisting of two characters
+				styleText('yellow', `⚠️  Session ${sessionName} is running detached`),
+			);
 			break;
 		case 'ATTACHED_SESSION':
-			console.log('Attached Session !!!');
+			console.log(
+				// double space due to emoji consisting of two characters
+				styleText('yellow', `⚠️  Session ${sessionName} is running attached`),
+			);
 			break;
 	}
 };

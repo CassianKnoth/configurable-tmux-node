@@ -1,13 +1,16 @@
 import { execSync } from 'node:child_process';
 
-import { Window } from '../../../types/config-types.js';
 import { printLineSeparator } from '../../layout/line-separator.js';
 import { createWindow } from './create-window.js';
+import { configuredSessions } from '../../../config.js';
 
-export const tmuxStartSession = (
-	sessionName: string,
-	configuredWindows: Window[],
-) => {
+export const tmuxStartSession = (sessionName: string) => {
+	const configuredWindows = configuredSessions[sessionName];
+
+	if (!configuredWindows) {
+		throw new Error(`Internal: No configuration found for: ${sessionName}`);
+	}
+
 	printLineSeparator();
 
 	const initialWindowName = 'default';

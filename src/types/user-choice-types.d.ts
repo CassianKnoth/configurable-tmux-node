@@ -1,5 +1,5 @@
 import { Action } from './action.js';
-import { SessionState } from './state.js';
+import { Context } from './state.js';
 
 export type UserChoice = 'attach' | 'destroy' | 'restart' | 'other' | 'exit';
 
@@ -11,13 +11,18 @@ type AtLeastOne<T> = {
 
 export type UserChoiceList = AtLeastOne<AllUserChoices>;
 
-export type ChoiceHandler = () => SessionState;
+export type ChoiceHandler = (currentContext?: Context) => Context;
 
 type Choice = {
-	/** How the option is presented to the user.
-	 * @examples [r]estart (indicating "r" or "restart" triggers this option)
+	/**
+	 * How the option can be referenced in text
+	 * @examples attach
 	 */
 	label: string;
+	/** How the option is presented to the user in context of a choice dialouge.
+	 * @examples [r]estart (indicating "r" or "restart" triggers this option)
+	 */
+	optionLabel: string;
 	/** Pattern to match the user input which can be variable
 	 * e. g. match "o", "other" and "Other"
 	 */
@@ -25,4 +30,4 @@ type Choice = {
 	/** Function to handle the given choice */
 	handler: ChoiceHandler;
 };
-export type AllChoices = Partial<Record<UserChoice, Choice>>;
+export type AllChoices = Record<UserChoice, Choice>;

@@ -1,25 +1,42 @@
-import { SessionState } from '../../types/state.js';
+import { Context } from '../../types/state.js';
 import { printLineSeparator } from '../layout/line-separator.js';
+import { handleUserChoice } from '../user-input/user-choice/handle-user-choice.js';
 import { handleNoConfigState } from './handler/handle-no-config-state.js';
 
-export const transition = async (
-	currentState: SessionState,
-): Promise<SessionState> => {
+export const transition = async (currentContext: Context): Promise<Context> => {
 	printLineSeparator();
-	console.log('transition from: ', currentState);
+	console.log('transition from: ', currentContext);
 
-	switch (currentState) {
+	let newContext: Context = { ...currentContext, sessionState: 'EXIT' };
+
+	switch (currentContext.sessionState) {
 		case 'NO_CONFIG':
-			const newState = await handleNoConfigState(currentState);
-			return newState;
+			newContext = await handleNoConfigState(currentContext);
+			break;
 		case 'DETACHED_SESSION':
-			console.log('Detached Session !!!');
-			return 'EXIT';
+			newContext = await handleUserChoice(
+				{
+					attach: true,
+					restart: true,
+					destroy: true,
+					other: true,
+					exit: true,
+				},
+				currentContext,
+			);
+			break;
 		case 'ATTACHED_SESSION':
-			console.log('Attached Session !!!');
-			return 'EXIT';
-		default:
-			// TODO use exit handler
-			return 'EXIT';
+			newContext = await handleUserChoice(
+				{
+					restart: true,
+					destroy: true,
+					other: true,
+					exit: true,
+				},
+				currentContext,
+			);
+			break;
 	}
+
+	return newContext;
 };

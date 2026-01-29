@@ -1,29 +1,29 @@
 import { styleText } from 'node:util';
 import { configuredSessions } from '../../../config.js';
-import { SessionState } from '../../../types/state.js';
-import { choices } from '../../user-input/choices.js';
+import { Context } from '../../../types/state.js';
+import { choices } from '../../user-input/user-choice/choices.js';
 import { getUserInput } from '../../user-input/get-user-input.js';
 import { hasTmuxSession } from '../../tmux/has-session.js';
 import { isTmuxAttached } from '../../tmux/is-attached.js';
 import { tmuxStartSession } from '../../tmux/start/start-session.js';
+import { handleWithConfirmation } from '../../user-input/user-choice/handle-with-confirmation.js';
 
 export const handleNoConfigState = async (
-	currentState: SessionState,
-): Promise<SessionState> => {
+	currentContext: Context,
+): Promise<Context> => {
 	// get user input
 	const userInput = await getUserInput(
 		'🔑 Session-configuration key or [e]xit: ',
 	);
 
 	// handle exit
-	// TODO remove .?-chain once testing is done
-	if (choices.exit?.regex.test(userInput)) {
-		const userInput = await getUserInput('Exit? [Y/n]: ');
+	if (choices.exit.regex.test(userInput)) {
+		const newContext = await handleWithConfirmation(
+			choices.exit,
+			currentContext,
+		);
 
-		const confirmed = !/n$|no/i.test(userInput);
-
-		const newState = confirmed ? choices.exit.handler() : currentState;
-		return newState;
+		return newContext;
 	}
 
 	// handle other input
@@ -42,7 +42,7 @@ export const handleNoConfigState = async (
 				`➡️  Check for typos, create it and then try again, or choose another`,
 			),
 		);
-		return 'NO_CONFIG';
+		return { ...currentContext, sessionState: 'NO_CONFIG' };
 	}
 
 	const sessionName = userInput;
@@ -57,21 +57,19 @@ export const handleNoConfigState = async (
 	// - attached / detached
 	if (hasSession) {
 		console.log(
-			styleText('yellow', `🏃 Session ${sessionName} is already running`),
+			styleText('yellow', `🏃 Session "${sessionName}" is already running`),
 		);
 
 		const isAttached = isTmuxAttached(sessionName);
 
 		if (isAttached) {
-			// TODO return sessionName
-			return 'ATTACHED_SESSION';
+			return { sessionState: 'ATTACHED_SESSION', sessionName: sessionName };
 		} else {
-			// TODO return sessionName
-			return 'DETACHED_SESSION';
+			return { sessionState: 'DETACHED_SESSION', sessionName: sessionName };
 		}
 	}
 
 	// - start
-	tmuxStartSession(sessionName, configuration);
-	return 'DETACHED_SESSION';
+	tmuxStartSession(sessionName);
+	return { sessionState: 'DETACHED_SESSION', sessionName: sessionName };
 };

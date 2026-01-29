@@ -4,13 +4,21 @@ import { execSync } from 'node:child_process';
  * @param sessionName Name of the tmux session
  */
 export const isTmuxAttached = (sessionName: string): boolean => {
-	try {
-		execSync(
-			`tmux list-sessions -F "#{session_name} #{session_attached}" | awk -v name="${sessionName}" '$1 == name {print $2}'`,
-			{ stdio: 'ignore' },
-		);
-		return true;
-	} catch {
-		return false;
-	}
+	const attached = execSync(
+		`tmux display-message -p -t ${sessionName} "#{session_attached}"`,
+	)
+		.toString()
+		.trim();
+
+	return attached === '1';
+
+	// try {
+	// 	execSync(
+	// 		`tmux list-sessions -F "#{session_name} #{session_attached}" | awk -v name="${sessionName}" '$1 == name {print $2}'`,
+	// 		{ stdio: 'ignore' },
+	// 	);
+	// 	return true;
+	// } catch {
+	// 	return false;
+	// }
 };
