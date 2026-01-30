@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { Shell, Window } from './types/config-types.js';
 
 export const shell: Shell = 'zsh';
@@ -6,8 +7,7 @@ export const configuredSessions: Record<string, Window[]> = {
 	testSession: [
 		{
 			name: 'test-window',
-			workspacePath:
-				'/Users/cassian.knoth/Desktop/Cassian/playground/tmux/tmux-test-project',
+			workspacePath: process.env.TEST_WORKSPACE_PATH || '',
 			additionalPanes: [
 				{
 					name: 'server',
@@ -21,8 +21,7 @@ export const configuredSessions: Record<string, Window[]> = {
 		},
 		{
 			name: 'another-window',
-			workspacePath:
-				'/Users/cassian.knoth/Desktop/Cassian/playground/tmux/tmux-test-project',
+			workspacePath: process.env.TEST_WORKSPACE_PATH || '',
 			additionalPanes: [
 				{
 					name: 'tester',
@@ -34,8 +33,7 @@ export const configuredSessions: Record<string, Window[]> = {
 	anotherSession: [
 		{
 			name: 'yet-another-test-window',
-			workspacePath:
-				'/Users/cassian.knoth/Desktop/Cassian/playground/tmux/tmux-test-project',
+			workspacePath: process.env.TEST_WORKSPACE_PATH || '',
 			additionalPanes: [
 				{
 					name: 'yet-another-something',
