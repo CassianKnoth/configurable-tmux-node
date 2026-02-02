@@ -16,11 +16,11 @@ export type ChoiceHandler = (currentContext?: Context) => Context;
 type Choice = {
 	/**
 	 * How the option can be referenced in text
-	 * @examples attach
+	 * @example attach
 	 */
 	label: string;
 	/** How the option is presented to the user in context of a choice dialouge.
-	 * @examples [r]estart (indicating "r" or "restart" triggers this option)
+	 * @example [r]estart (indicating "r" or "restart" triggers this option)
 	 */
 	optionLabel: string;
 	/** Pattern to match the user input which can be variable
