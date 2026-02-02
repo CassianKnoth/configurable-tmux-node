@@ -1,0 +1,80 @@
+{
+    "$id": "node-tmux-schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "SessionConfigurations": {
+            "$ref": "node-tmux-schema#/definitions/__type"
+        },
+        "Shell": {
+            "enum": [
+                "bash",
+                "zsh"
+            ],
+            "type": "string"
+        },
+        "__type": {
+            "additionalProperties": {
+                "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "additionalPanes": {
+                            "description": "Optional: Besides the given root, what other panes should be horizontally split next to it in the same window.",
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "command": {
+                                        "description": "Optional: Command that should be run in ths pane",
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "description": "This will be used together with the window name",
+                                        "type": "string"
+                                    },
+                                    "subPath": {
+                                        "description": "Optional: Opens the pane at the given relative path which will be appended to the `workSpacePath`",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "name": {
+                            "description": "Name of the tmux window. This will be used as the prefix for window and pane names.",
+                            "type": "string"
+                        },
+                        "workspacePath": {
+                            "description": "Absolute path to workspace root.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "workspacePath"
+                    ],
+                    "type": "object"
+                },
+                "type": "array"
+            },
+            "type": "object"
+        }
+    },
+    "properties": {
+        "sessions": {
+            "$ref": "node-tmux-schema#/definitions/SessionConfigurations"
+        },
+        "shell": {
+            "$ref": "node-tmux-schema#/definitions/Shell"
+        }
+    },
+    "required": [
+        "sessions",
+        "shell"
+    ],
+    "type": "object"
+}
+

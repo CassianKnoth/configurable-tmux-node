@@ -1,14 +1,24 @@
+export type NodeTmuxConfig = {
+	shell: Shell;
+	sessions: SessionConfigurations;
+};
+
+// export type SessionConfigurations = Record<string, Window[]>;
+export type SessionConfigurations = { [sessionName: string]: Window[] };
+
+export type Shell = 'zsh' | 'bash';
+
 export type Window = {
 	/** Name of the tmux window. This will be used as the prefix for window and pane names. */
 	name: string;
 	/** Absolute path to workspace root.
 	 *
-	 * @examples "/Users/username/Desktop/myAwesomeProject"
+	 * @example "/Users/username/Desktop/myAwesomeProject"
 	 */
 	workspacePath: string;
-	/**  Optional: Besides the given root, what other panes should be horizontally split next to it in the same window, for example:
+	/**  Optional: Besides the given root, what other panes should be horizontally split next to it in the same window.
 	 *
-	 * @examples
+	 * @example
 	 * - a pane at the root running a server
 	 * - a pane at the root running a watcher
 	 * - both of the above in parallel
@@ -22,16 +32,14 @@ type Pane = {
 	name: string;
 	/** Optional: Opens the pane at the given relative path which will be appended to the `workSpacePath`
 	 *
-	 * @examples "packages/server/src" --> "/Users/username/Desktop/myAwesomeProject/packages/server/src"
+	 * @example "packages/server/src" --> "/Users/username/Desktop/myAwesomeProject/packages/server/src"
 	 *
 	 * If omitted panes open at `workSpacePath`
 	 */
 	subPath?: string;
 	/** Optional: Command that should be run in ths pane
 	 *
-	 * @examples "npm run  start"
+	 * @example "npm run  start"
 	 */
 	command?: string;
 };
-
-export type Shell = 'zsh' | 'bash';
