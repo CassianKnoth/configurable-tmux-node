@@ -87,10 +87,7 @@ jobs:
 
       - name: Merge release PR
         run: |
-          gh pr merge \
-            --merge \
-            --auto /
-            --delete-branch
+          gh pr merge ${{steps.version.outputs.branch}} --rebase --auto --delete-branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
